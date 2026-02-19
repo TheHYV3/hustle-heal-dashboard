@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hustle & Heal - Master Referral Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-teal: #18a4d7;
+            --secondary-teal: #0d7a9e;
+            --accent-blue: #8c2ce8;
+            --accent-magenta: #f85bef;
+            --dark-green: #44592c;
+
+            --light-bg: #FAFAF8;
+            --light-surface: #FFFFFF;
+            --light-secondary: #F5F3F0;
+            --light-text: #2C2C2C;
+            --light-text-secondary: #6B6B6B;
+            --light-border: #E8E3DC;
+            
+            --dark-bg: #1A1A1A;
+            --dark-surface: #242424;
+            --dark-secondary: #2E2E2E;
+            --dark-text: #F8F8F8;
+            --dark-text-secondary: #B8B8B8;
+            --dark-border: #3C3C3C;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--light-text);
+            background: var(--light-bg);
+            transition: background-color 0.3s ease;
+        }
+
+        html[data-theme="dark"] body {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--secondary-teal) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-left img {
+            height: 60px;
+            width: auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .logo-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-icon {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .cohort-banner {
+            background: linear-gradient(135deg, var(--light-orange) 0%, var(--accent-magenta) 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .section {
+            background: var(--light-surface);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        html[data-theme="dark"] .section {
+            background: var(--dark-surface);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            color: var(--primary-teal);
+            text-transform: UPPERCASE;
+            letter-spacing: 1px;
+        }
+
+        .section-header i {
+            font-size: 1.6rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--light-border);
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-text-secondary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-green) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(24, 164, 215, 0.3);
+        }
+
+        .table-wrapper {
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--light-surface);
+        }
+
+        html[data-theme="dark"] table {
+            background: var(--dark-surface);
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-green) 100%);
+            color: white;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        html[data-theme="dark"] td {
+            border-bottom-color: var(--dark-border);
+        }
+
+        tr:hover {
+            background: var(--light-secondary);
+            cursor: pointer;
+        }
+
+        html[data-theme="dark"] tr:hover {
+            background: var(--dark-secondary);
+        }
+
+        thead tr:hover {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-green) 100%) !important;
+            cursor: default;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            text-transform: UPPERCASE;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active {
+            background: rgba(91, 138, 127, 0.2);
+            color: var(--teal);
+        }
+
+        .status-enrolled {
+            background: rgba(24, 164, 215, 0.2);
+            color: var(--primary-teal);
+        }
+
+        .status-waiting {
+            background: rgba(240, 150, 15, 0.2);
+            color: var(--accent-magenta);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--light-surface);
+            padding: 2.5rem;
+            border-radius: 16px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        html[data-theme="dark"] .modal-content {
+            background: var(--dark-surface);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--light-border);
+            padding-bottom: 1rem;
+        }
+
+        html[data-theme="dark"] .modal-header {
+            border-bottom-color: var(--dark-border);
+        }
+
+        .modal-header h2 {
+            color: var(--primary-teal);
+            margin: 0;
+            text-transform: UPPERCASE;
+            letter-spacing: 1px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--light-text-secondary);
+            cursor: pointer;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--light-secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-teal);
+        }
+
+        html[data-theme="dark"] .form-section {
+            background: var(--dark-secondary);
+        }
+
+        .form-section h3 {
+            color: var(--primary-teal);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-transform: UPPERCASE;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--dark-green);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: UPPERCASE;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group textarea,
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--light-border);
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            background: var(--light-surface);
+            color: var(--light-text);
+        }
+
+        html[data-theme="dark"] .form-group textarea,
+        html[data-theme="dark"] .form-group input,
+        html[data-theme="dark"] .form-group select {
+            background: var(--dark-secondary);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+
+        .form-group textarea:focus,
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .radio-group label,
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 400;
+            text-transform: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .radio-group input[type="radio"],
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--light-border);
+        }
+
+        html[data-theme="dark"] .modal-buttons {
+            border-top-color: var(--dark-border);
+        }
+
+        .btn-secondary {
+            background: var(--light-border);
+            color: var(--light-text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-text-secondary);
+        }
+
+        .timeline-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--light-secondary);
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-teal);
+        }
+
+        html[data-theme="dark"] .timeline-item {
+            background: var(--dark-secondary);
+        }
+
+        .timeline-item h4 {
+            color: var(--primary-teal);
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        .timeline-item p {
+            font-size: 0.9rem;
+            color: var(--light-text-secondary);
+        }
+
+        html[data-theme="dark"] .timeline-item p {
+            color: var(--dark-text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        html[data-theme="dark"] #detailModal .form-group input,
+        html[data-theme="dark"] #detailModal .form-group select,
+        html[data-theme="dark"] #detailModal .form-group textarea {
+            background: var(--dark-secondary);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+
+        html[data-theme="dark"] #detailModal .form-group input:focus,
+        html[data-theme="dark"] #detailModal .form-group select:focus,
+        html[data-theme="dark"] #detailModal .form-group textarea:focus {
+            border-color: var(--primary-teal);
+        }
+
+        html[data-theme="dark"] #detailConsent {
+            accent-color: var(--primary-teal);
+        }
+
+        html[data-theme="dark"] label[for="detailConsent"] {
+            color: var(--dark-text) !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <img src="https://drive.google.com/uc?export=view&id=15o3RjIcrcNyMGw0OCRrTsTGRLhb744v0" alt="Legacies Empowered" style="height: 60px; width: auto;">
+                <div>
+                    <div class="logo">HUSTLE & HEAL</div>
+                    <div class="logo-subtitle">Master Referral Tracking Dashboard</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-icon" onclick="openReadmeModal()" title="How to use this dashboard" style="position: relative;">
+                    <i class="fas fa-circle-question"></i>
+                    <span style="position: absolute; top: -8px; right: -8px; display: flex; align-items: center; gap: 4px; font-size: 0.75rem; color: var(--primary-teal); font-weight: 700; animation: bounce 1.5s ease-in-out infinite; white-space: nowrap;">
+                        <span style="display: inline-block; width: 6px; height: 6px; background: var(--primary-teal); border-radius: 50%; animation: pulse 1.5s ease-in-out infinite;"></span>
+                        Click Me
+                    </span>
+                </button>
+                <button class="btn-icon" onclick="openFeedbackModal()" title="Share Feedback">
+                    <i class="fas fa-comment"></i>
+                </button>
+                <button class="btn-icon" onclick="toggleTheme()" title="Toggle dark/light mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Cohort Banner -->
+        <div class="cohort-banner">
+            <i class="fas fa-star"></i> CURRENTLY TRACKING: SPRING 2025 COHORT (January 15 - May 30, 2025)
+        </div>
+
+        <!-- Referral Tracking Section -->
+        <div class="section">
+            <div style="margin-bottom: 0.5rem;">
+                <p style="color: var(--primary-teal); font-weight: 600; text-transform: UPPERCASE; letter-spacing: 1px; margin: 0;">SPRING 2025 (January 15 - May 30, 2025)</p>
+            </div>
+            <div class="section-header">
+                <i class="fas fa-users"></i>
+                <h2>REFERRAL TRACKING</h2>
+            </div>
+
+            <div class="controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by name or referral ID...">
+                </div>
+                <button class="btn btn-primary" onclick="openAddReferralModal()">
+                    <i class="fas fa-plus"></i> Add Referral
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="referralTable">
+                    <thead>
+                        <tr>
+                            <th>Referral ID</th>
+                            <th>Youth Name</th>
+                            <th>Age</th>
+                            <th>Status</th>
+                            <th>Source</th>
+                            <th>Consent Form</th>
+                            <th>Attendance</th>
+                            <th>Stipend</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Program Timeline Section -->
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-calendar-alt"></i>
+                <h2>PROGRAM TIMELINE</h2>
+            </div>
+            <div id="timelineContainer"></div>
+        </div>
+    </div>
+
+    <!-- README Modal -->
+    <div id="readmeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>HOW TO USE THIS DASHBOARD</h2>
+                <button class="close-btn" onclick="closeReadmeModal()">&times;</button>
+            </div>
+
+            <div style="line-height: 1.8;">
+                <h3 style="color: var(--primary-teal); text-transform: UPPERCASE; letter-spacing: 1px; margin-top: 1.5rem; margin-bottom: 1rem;">📊 REFERRAL TRACKING TABLE</h3>
+                <p>The main table displays all youth referrals in the current cohort. Each row shows:</p>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                    <li><strong>Referral ID:</strong> Unique identifier for each youth</li>
+                    <li><strong>Youth Name:</strong> First and last name of participant</li>
+                    <li><strong>Age:</strong> Age of the youth at enrollment</li>
+                    <li><strong>Status:</strong> Current program status (Active, Enrolled, Waiting, etc.)</li>
+                    <li><strong>Source:</strong> How the youth was referred (Community, Court, Self-Referral)</li>
+                    <li><strong>Consent Form:</strong> Whether parental consent is received</li>
+                    <li><strong>Attendance:</strong> Percentage of program sessions attended</li>
+                    <li><strong>Stipend:</strong> Amount paid to youth</li>
+                </ul>
+
+                <h3 style="color: var(--primary-teal); text-transform: UPPERCASE; letter-spacing: 1px; margin-top: 1.5rem; margin-bottom: 1rem;">📅 PROGRAM TIMELINE</h3>
+                <p>The timeline shows key milestones and events for the current cohort, helping you track important dates and program phases.</p>
+
+                <h3 style="color: var(--primary-teal); text-transform: UPPERCASE; letter-spacing: 1px; margin-top: 1.5rem; margin-bottom: 1rem;">💬 FEEDBACK</h3>
+                <p>Use the feedback button (comment icon) to share your thoughts on the dashboard design, functionality, and content. Your feedback helps us improve!</p>
+
+                <h3 style="color: var(--primary-teal); text-transform: UPPERCASE; letter-spacing: 1px; margin-top: 1.5rem; margin-bottom: 1rem;">🌙 DARK MODE</h3>
+                <p>Click the moon icon to toggle between light and dark mode based on your preference.</p>
+
+                <h3 style="color: var(--primary-teal); text-transform: UPPERCASE; letter-spacing: 1px; margin-top: 1.5rem; margin-bottom: 1rem;">🔍 SEARCHING</h3>
+                <p>Use the search box to find youth by name or referral ID. The table will filter in real-time as you type.</p>
+            </div>
+
+            <div class="modal-buttons">
+                <button type="button" class="btn btn-primary" onclick="closeReadmeModal()">GOT IT!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>DASHBOARD FEEDBACK FORM</h2>
+                <button class="close-btn" onclick="closeFeedbackModal()">&times;</button>
+            </div>
+
+            <form id="feedbackForm" onsubmit="submitFeedback(event)">
+                <!-- Layout & Theme Section -->
+                <div class="form-section">
+                    <h3><i class="fas fa-paint-brush"></i> SECTION 1: LAYOUT & THEME</h3>
+                    <div class="form-group">
+                        <label>Overall Dashboard Appearance Rating</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="appearance" value="excellent"> Excellent - Love the design</label>
+                            <label><input type="radio" name="appearance" value="good"> Good - Works well for me</label>
+                            <label><input type="radio" name="appearance" value="neutral"> Neutral - It's okay</label>
+                            <label><input type="radio" name="appearance" value="needs-improvement"> Needs Improvement - Would prefer changes</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Comments on Colors, Layout, or Fonts</label>
+                        <textarea name="theme-feedback" placeholder="What would you change about the colors, layout, fonts, etc..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Referral Tracking Table Section -->
+                <div class="form-section">
+                    <h3><i class="fas fa-table"></i> SECTION 2: REFERRAL TRACKING TABLE</h3>
+                    <div class="form-group">
+                        <label>Clarity of Column Names (Referral ID, Youth Name, Age, Status, Source, Consent Form, Attendance, Stipend)</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="column-clarity" value="very-clear"> Very Clear</label>
+                            <label><input type="radio" name="column-clarity" value="mostly-clear"> Mostly Clear</label>
+                            <label><input type="radio" name="column-clarity" value="somewhat-confusing"> Somewhat Confusing</label>
+                            <label><input type="radio" name="column-clarity" value="very-confusing"> Very Confusing</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Suggestions for Column Name Changes</label>
+                        <textarea name="column-suggestions" placeholder="Which column names would you rename or change? (e.g., 'Source' to 'Referral Source')"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Status Definitions Clarity (Active, Enrolled, Waiting, No Response, Completed)</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="status-clarity" value="very-clear"> Very Clear</label>
+                            <label><input type="radio" name="status-clarity" value="mostly-clear"> Mostly Clear</label>
+                            <label><input type="radio" name="status-clarity" value="confusing"> Confusing - Need more detail</label>
+                            <label><input type="radio" name="status-clarity" value="missing-status"> Missing status options</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Suggestions for Status Changes</label>
+                        <textarea name="status-suggestions" placeholder="What status definitions would you add, remove, or change?"></textarea>
+                    </div>
+                </div>
+
+                <!-- General Feedback Section -->
+                <div class="form-section">
+                    <h3><i class="fas fa-lightbulb"></i> SECTION 3: REQUIRED FORMS CHECKLIST</h3>
+                    <p style="font-size: 0.9rem; color: var(--light-text-secondary); margin-bottom: 1rem;">Please verify that all required form fields are present and easy to complete:</p>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="form-consent"> Consent Form tracking is clear</label>
+                        <label><input type="checkbox" name="form-parent-intake"> Parent/Guardian Intake tracking is clear</label>
+                        <label><input type="checkbox" name="form-emergency"> Emergency Contact Form tracking is clear</label>
+                        <label><input type="checkbox" name="form-dates"> Form date received fields are helpful</label>
+                        <label><input type="checkbox" name="form-download"> Download Forms Package button works well</label>
+                    </div>
+                </div>
+
+                <!-- General Feedback Section -->
+                <div class="form-section">
+                    <h3><i class="fas fa-lightbulb"></i> SECTION 4: GENERAL FEEDBACK</h3>
+                    <div class="form-group">
+                        <label>Overall Experience with the Dashboard</label>
+                        <textarea name="general-feedback" placeholder="Share any additional thoughts, suggestions, or concerns..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Email (Optional)</label>
+                        <input type="email" id="newEmail" placeholder="hollins@legaciesempowered.org">
+                    </div>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeFeedbackModal()">CANCEL</button>
+                    <button type="submit" class="btn btn-primary">SUBMIT FEEDBACK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        window.addEventListener('load', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        });
+
+        // Feedback Modal
+        function openFeedbackModal() {
+            document.getElementById('feedbackModal').classList.add('show');
+        }
+
+        function closeFeedbackModal() {
+            document.getElementById('feedbackModal').classList.remove('show');
+        }
+
+        // Add Referral Modal
+        function openAddReferralModal() {
+            document.getElementById('addReferralForm').reset();
+            document.getElementById('addReferralModal').classList.add('show');
+        }
+
+        function closeAddReferralModal() {
+            document.getElementById('addReferralModal').classList.remove('show');
+        }
+
+        function submitAddReferral(event) {
+            event.preventDefault();
+            
+            const newReferral = {
+                id: 'HH-' + new Date().toISOString().slice(5,7) + new Date().toISOString().slice(2,4) + '-' + String(referrals.length + 1).padStart(3, '0'),
+                name: document.getElementById('newName').value,
+                age: parseInt(document.getElementById('newAge').value),
+                email: document.getElementById('newEmail').value,
+                phone: document.getElementById('newPhone').value,
+                source: document.getElementById('newSource').value,
+                status: document.getElementById('newStatus').value,
+                attendance: parseInt(document.getElementById('newAttendance').value) || 0,
+                stipend: document.getElementById('newStipend').value,
+                consent: document.getElementById('newConsent').checked ? 'yes' : 'no',
+                notes: document.getElementById('newNotes').value
+            };
+
+            referrals.push(newReferral);
+            renderTable(referrals);
+            
+            alert('✓ Referral for ' + newReferral.name + ' added successfully!\nReferral ID: ' + newReferral.id);
+            closeAddReferralModal();
+        }
+
+        // README Modal
+        function openReadmeModal() {
+            document.getElementById('readmeModal').classList.add('show');
+        }
+
+        function closeReadmeModal() {
+            document.getElementById('readmeModal').classList.remove('show');
+        }
+
+        function submitFeedback(event) {
+            event.preventDefault();
+            const formData = new FormData(document.getElementById('feedbackForm'));
+            const feedback = Object.fromEntries(formData);
+            
+            // Send to Formspree (free, no backend needed)
+            fetch('https://formspree.io/f/xvzbbgyw', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...feedback,
+                    _subject: 'Hustle & Heal Dashboard Feedback',
+                    _to: 'hollins@legaciesempowered.org',
+                    _cc: 'biancasva001@gmail.com',
+                    _replyto: feedback.email || 'noreply@legaciesempowered.org'
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('✓ Thank you for your feedback, Chardé! Your feedback has been sent to hollins@legaciesempowered.org');
+                    closeFeedbackModal();
+                    document.getElementById('feedbackForm').reset();
+                } else {
+                    alert('❌ Error sending feedback. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('❌ Error sending feedback. Please try again.');
+            });
+        }
+
+        // Sample data
+        const referrals = [
+            { 
+                id: 'HH-0216-001', 
+                name: 'Marcus Johnson', 
+                age: 14, 
+                status: 'active', 
+                source: 'Community Referral', 
+                consent: 'yes',
+                attendance: 90, 
+                stipend: '$180'
+            },
+            { 
+                id: 'HH-0216-002', 
+                name: 'Amelia Davis', 
+                age: 16, 
+                status: 'enrolled', 
+                source: 'Court', 
+                consent: 'yes',
+                attendance: 0, 
+                stipend: '$0'
+            }
+        ];
+
+        const timeline = [
+            { example: 'Example 1', date: 'January 15, 2025', description: 'Add Timeline Item Here' },
+            { example: 'Example 2', date: 'February 1, 2025', description: 'Add Timeline Item Here' },
+            { example: 'Example 3', date: 'March 15, 2025', description: 'Add Timeline Item Here' },
+            { example: 'Example 4', date: 'April 30, 2025', description: 'Add Timeline Item Here' }
+        ];
+
+        // Render table
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = data.map(ref => `
+                <tr onclick="openDetailModal(${JSON.stringify(ref).replace(/"/g, '&quot;')})">
+                    <td><strong>${ref.id}</strong></td>
+                    <td>${ref.name}</td>
+                    <td>${ref.age}</td>
+                    <td><span class="status-badge status-${ref.status}">${ref.status}</span></td>
+                    <td>${ref.source}</td>
+                    <td>${ref.consent === 'yes' ? '✓ Yes' : '✗ No'}</td>
+                    <td>${ref.attendance}%</td>
+                    <td>${ref.stipend}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Detail Modal Functions
+        let currentDetailReferral = null;
+
+        function openDetailModal(referral) {
+            currentDetailReferral = referral;
+            document.getElementById('detailName').textContent = referral.name;
+            document.getElementById('detailID').textContent = referral.id;
+            document.getElementById('detailEmail').value = referral.email || '';
+            document.getElementById('detailPhone').value = referral.phone || '';
+            document.getElementById('detailSource').value = referral.source || '';
+            document.getElementById('detailAge').value = referral.age;
+            document.getElementById('detailStatus').value = referral.status;
+            document.getElementById('detailConsent').checked = referral.consent === 'yes';
+            document.getElementById('detailNotes').value = referral.notes || '';
+            document.getElementById('detailModal').classList.add('show');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('show');
+            currentDetailReferral = null;
+        }
+
+        function saveReferralChanges() {
+            if (currentDetailReferral) {
+                currentDetailReferral.email = document.getElementById('detailEmail').value;
+                currentDetailReferral.phone = document.getElementById('detailPhone').value;
+                currentDetailReferral.source = document.getElementById('detailSource').value;
+                currentDetailReferral.age = parseInt(document.getElementById('detailAge').value);
+                currentDetailReferral.status = document.getElementById('detailStatus').value;
+                currentDetailReferral.consent = document.getElementById('detailConsent').checked ? 'yes' : 'no';
+                currentDetailReferral.notes = document.getElementById('detailNotes').value;
+                
+                alert('✓ Changes saved successfully!');
+                renderTable(referrals);
+                closeDetailModal();
+            }
+        }
+
+        // Render timeline
+        function renderTimeline() {
+            const container = document.getElementById('timelineContainer');
+            container.innerHTML = timeline.map(item => `
+                <div class="timeline-item">
+                    <h4>${item.example}</h4>
+                    <strong>${item.date}</strong>
+                    <p>${item.description}</p>
+                </div>
+            `).join('');
+        }
+
+        // Search
+        document.getElementById('searchInput').addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = referrals.filter(r => 
+                r.name.toLowerCase().includes(term) || 
+                r.id.toLowerCase().includes(term)
+            );
+            renderTable(filtered);
+        });
+
+        // Close modal on outside click
+        window.onclick = (event) => {
+            const addReferralModal = document.getElementById('addReferralModal');
+            const readmeModal = document.getElementById('readmeModal');
+            const feedbackModal = document.getElementById('feedbackModal');
+            const detailModal = document.getElementById('detailModal');
+            if (event.target === addReferralModal) {
+                closeAddReferralModal();
+            }
+            if (event.target === readmeModal) {
+                closeReadmeModal();
+            }
+            if (event.target === feedbackModal) {
+                closeFeedbackModal();
+            }
+            if (event.target === detailModal) {
+                closeDetailModal();
+            }
+        };
+
+        // Download Documentation Function
+        function downloadDocumentation() {
+            if (!currentDetailReferral) return;
+            alert('📄 Downloading forms package for ' + currentDetailReferral.name + '...\n\nForms included:\n- Consent Form\n- Parent/Guardian Intake\n- Emergency Contact Form');
+        }
+
+        // Initialize
+        renderTable(referrals);
+        renderTimeline();
+    </script>
+
+    <!-- Add Referral Modal -->
+    <div id="addReferralModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>ADD NEW REFERRAL</h2>
+                <button class="close-btn" onclick="closeAddReferralModal()">&times;</button>
+            </div>
+
+            <form id="addReferralForm" onsubmit="submitAddReferral(event)">
+                <!-- Youth Information Section -->
+                <div class="form-section">
+                    <h3><i class="fas fa-user-circle"></i> YOUTH INFORMATION</h3>
+                    <div class="form-group">
+                        <label>Youth Name *</label>
+                        <input type="text" id="newName" placeholder="First and Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Age *</label>
+                        <input type="number" id="newAge" min="10" max="18" placeholder="Age" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="newEmail" placeholder="youth@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="newPhone" placeholder="(XXX) XXX-XXXX">
+                    </div>
+                </div>
+
+                <!-- Referral Information Section -->
+                <div class="form-section">
+                    <h3><i class="fas fa-clipboard-list"></i> REFERRAL INFORMATION</h3>
+                    <div class="form-group">
+                        <label>Referral Source *</label>
+                        <select id="newSource" required>
+                            <option value="">Select Source</option>
+                            <option value="Community Referral">Community Referral</option>
+                            <option value="Court">Court</option>
+                            <option value="Self-Referral">Self-Referral</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Initial Status *</label>
+                        <select id="newStatus" required>
+                            <option value="">Select Status</option>
+                            <option value="waiting">Waiting</option>
+                            <option value="enrolled">Enrolled</option>
+                            <option value="active">Active</option>
+                            <option value="no-response">No Response</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Attendance %</label>
+                        <input type="number" id="newAttendance" min="0" max="100" value="0" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Stipend Amount</label>
+                        <input type="text" id="newStipend" placeholder="$0" value="$0">
+                    </div>
+                </div>
+
+                <!-- Consent & Forms Section -->
+                <div class="form-section">
+                    <h3><i class="fas fa-file-alt"></i> CONSENT & FORMS</h3>
+                    <div class="form-group">
+                        <div style="display: flex; align-items: center; gap: 0.8rem;">
+                            <input type="checkbox" id="newConsent" style="width: 20px; height: 20px;">
+                            <label for="newConsent" style="margin: 0; text-transform: none; color: var(--light-text); font-weight: 500;">Consent Form Received</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Additional Notes</label>
+                        <textarea id="newNotes" placeholder="Any additional information..."></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddReferralModal()">CANCEL</button>
+                    <button type="submit" class="btn btn-primary">ADD REFERRAL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2 id="detailName">Youth Name</h2>
+                    <p style="color: var(--light-text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">ID: <strong id="detailID">HH-0000-000</strong></p>
+                </div>
+                <button class="close-btn" onclick="closeDetailModal()">&times;</button>
+            </div>
+
+            <!-- Youth Information Section -->
+            <div class="form-section">
+                <h3><i class="fas fa-user-circle"></i> YOUTH INFORMATION</h3>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="detailEmail" placeholder="youth@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="detailPhone" placeholder="(XXX) XXX-XXXX">
+                </div>
+                <div class="form-group">
+                    <label>Referral Source</label>
+                    <select id="detailSource">
+                        <option value="">Select Source</option>
+                        <option value="Community Referral">Community Referral</option>
+                        <option value="Court">Court</option>
+                        <option value="Self-Referral">Self-Referral</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="detailAge" min="10" max="18">
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="detailNotes" placeholder="Any additional notes about this youth..."></textarea>
+                </div>
+            </div>
+
+            <!-- Program Status Section -->
+            <div class="form-section">
+                <h3><i class="fas fa-clipboard-list"></i> PROGRAM STATUS</h3>
+                <div class="form-group">
+                    <label>Current Status</label>
+                    <select id="detailStatus">
+                        <option value="active">Active</option>
+                        <option value="enrolled">Enrolled</option>
+                        <option value="waiting">Waiting</option>
+                        <option value="no-response">No Response</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div style="display: flex; align-items: center; gap: 0.8rem;">
+                        <input type="checkbox" id="detailConsent" style="width: 20px; height: 20px;">
+                        <label for="detailConsent" style="margin: 0; text-transform: none; color: var(--light-text); font-weight: 500;">Consent Form Received</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Required Forms Section -->
+            <div class="form-section">
+                <h3><i class="fas fa-file-alt"></i> REQUIRED FORMS</h3>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="padding: 1rem; background: var(--light-surface); border-radius: 6px; border-left: 3px solid var(--primary-teal);">
+                        <div style="font-weight: 600; color: var(--primary-teal); margin-bottom: 0.3rem;">Consent Form</div>
+                        <div style="font-size: 0.9rem; color: var(--light-text-secondary); margin-bottom: 0.5rem;">Status: <strong id="form1Status">Received</strong></div>
+                        <div style="font-size: 0.85rem; color: var(--light-text-secondary);">Date Received: <strong id="form1Date">02/16/2025</strong></div>
+                    </div>
+                    <div style="padding: 1rem; background: var(--light-surface); border-radius: 6px; border-left: 3px solid var(--primary-teal);">
+                        <div style="font-weight: 600; color: var(--primary-teal); margin-bottom: 0.3rem;">Parent/Guardian Intake</div>
+                        <div style="font-size: 0.9rem; color: var(--light-text-secondary); margin-bottom: 0.5rem;">Status: <strong id="form2Status">Received</strong></div>
+                        <div style="font-size: 0.85rem; color: var(--light-text-secondary);">Date Received: <strong id="form2Date">02/16/2025</strong></div>
+                    </div>
+                    <div style="padding: 1rem; background: var(--light-surface); border-radius: 6px; border-left: 3px solid var(--primary-teal);">
+                        <div style="font-weight: 600; color: var(--primary-teal); margin-bottom: 0.3rem;">Emergency Contact Form</div>
+                        <div style="font-size: 0.9rem; color: var(--light-text-secondary); margin-bottom: 0.5rem;">Status: <strong id="form3Status">Received</strong></div>
+                        <div style="font-size: 0.85rem; color: var(--light-text-secondary);">Date Received: <strong id="form3Date">02/16/2025</strong></div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="downloadDocumentation()">
+                    <i class="fas fa-download"></i> DOWNLOAD FORMS PACKAGE
+                </button>
+            </div>
+
+            <div class="modal-buttons">
+                <button type="button" class="btn btn-secondary" onclick="closeDetailModal()">CANCEL</button>
+                <button type="button" class="btn btn-primary" onclick="saveReferralChanges()">SAVE CHANGES</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>
